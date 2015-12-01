@@ -199,6 +199,9 @@ public class Learner {
         Vote current = self.getCurrentVote();
         for (QuorumServer s : self.getView().values()) {
             if (s.id == current.getId()) {
+                // ZOOKEEPER-1846: Always recreate socket addresses for any DNS change.
+                // This fix is also related to ZOOKEEPER-1506.
+                s.recreateSocketAddresses();
                 addr = s.addr;
                 break;
             }
